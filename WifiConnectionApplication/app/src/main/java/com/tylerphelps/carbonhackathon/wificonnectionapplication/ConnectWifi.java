@@ -22,18 +22,12 @@ public class ConnectWifi {
         conf.SSID = "\"" + networkSSID + "\"";   // Please note the quotes. String should contain ssid in quotes
         conf.preSharedKey = "\""+ networkPass +"\"";
         WifiManager wifiManager = (WifiManager)activity.getApplicationContext().getSystemService(WIFI_SERVICE);
-        if(isSaved(wifiManager, conf)) {
+        if(!isSaved(wifiManager, conf)) {
             int netId = wifiManager.addNetwork(conf);
             wifiManager.enableNetwork(netId, true);
             wifiManager.setWifiEnabled(false);
             wifiManager.setWifiEnabled(true);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
-
         activity.finishAffinity();
     }
 
