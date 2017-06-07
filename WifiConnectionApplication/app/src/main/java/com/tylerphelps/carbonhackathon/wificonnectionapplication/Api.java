@@ -5,9 +5,11 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -32,17 +34,24 @@ public final class Api extends Activity {
      * @param lon longitude
      */
     public static void getWifiInfo(double lat, double lon, final Activity activity){
-        baseUrl = "http://74.208.84.27:4000/";
+        baseUrl = "http://74.208.84.27:4000/location";
         queue = Volley.newRequestQueue(activity);
-        String url = baseUrl + "location?latitude="+lat+"&longitude="+lon;
+        JSONObject body = new JSONObject();
+        try {
+            body.put("latitude", lat);
+            body.put("longitude", lon);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         // prepare the Request
-        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, baseUrl, body,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response) {
                         // display response
                         try {
+
                             String ssid = response.getString("ssid");
                             String password = response.getString("password");
                             //call chris/stephens procedure to log in
@@ -62,7 +71,11 @@ public final class Api extends Activity {
                 }
         );
 
+        int socketTimeout = 3000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
+
         // add it to the RequestQueue
-        queue.add(getRequest);
+        queue.add(request);
     }
 }
