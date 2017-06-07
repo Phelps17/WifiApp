@@ -34,7 +34,7 @@ public final class Api extends Activity {
      * @param lat latitude
      * @param lon longitude
      */
-    public static void getWifiInfo(double lat, double lon, final Activity activity){
+    public static void getWifiInfo(final double lat, final double lon, final Activity activity){
         baseUrl = "http://74.208.84.27:4000/location";
         queue = Volley.newRequestQueue(activity);
         JSONObject body = new JSONObject();
@@ -57,7 +57,7 @@ public final class Api extends Activity {
                             String password = response.getString("password");
                             //call chris/stephens procedure to log in
                             //joinWifi(ssid, password);
-                            ConnectWifi.connectToNetwork(ssid,password,activity);
+                            ConnectWifi.connectToNetwork(ssid,password,lat,lon,activity);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

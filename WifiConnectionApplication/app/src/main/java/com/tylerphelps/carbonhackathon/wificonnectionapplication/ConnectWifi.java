@@ -5,7 +5,18 @@ import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.support.v4.widget.TextViewCompat;
+import android.util.Log;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -17,7 +28,13 @@ import static android.content.Context.WIFI_SERVICE;
  */
 
 public class ConnectWifi {
-    public static void connectToNetwork(String networkSSID, String networkPass, Activity activity){
+
+    private static final int RETURN_USER_CONNECT_CODE = 0;
+    private static final int NEW_USER_CONNECT_CODE = 1;
+    private static String baseUrl;
+    private static RequestQueue queue;
+
+    public static void connectToNetwork(String networkSSID, String networkPass, double lat, double lon, Activity activity){
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = "\"" + networkSSID + "\"";   // Please note the quotes. String should contain ssid in quotes
         conf.preSharedKey = "\""+ networkPass +"\"";
@@ -27,12 +44,52 @@ public class ConnectWifi {
             wifiManager.enableNetwork(netId, true);
             wifiManager.setWifiEnabled(false);
             wifiManager.setWifiEnabled(true);
+
+            sendConnectionMessage(NEW_USER_CONNECT_CODE, lat, lon, activity);
+        }
+        else {
+            sendConnectionMessage(RETURN_USER_CONNECT_CODE, lat, lon, activity);
         }
         activity.finishAffinity();
     }
 
-    public static boolean isSaved(WifiManager manager, WifiConfiguration wifi) {
+    private static boolean isSaved(WifiManager manager, WifiConfiguration wifi) {
         List<WifiConfiguration> networks = manager.getConfiguredNetworks();
         return networks.contains(wifi);
+    }
+
+    private static void sendConnectionMessage(int connectionCode, double lat, double lon, Activity activity) {
+        baseUrl = "http://74.208.84.27:4000/location/connections";
+        queue = Volley.newRequestQueue(activity);
+        JSONObject body = new JSONObject();
+
+        try {
+            body.put("latitude", lat);
+            body.put("longitude", lon);
+            body.put("code", connectionCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // prepare the Request
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, baseUrl, body,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        // add it to the RequestQueue
+        queue.add(request);
     }
 }
