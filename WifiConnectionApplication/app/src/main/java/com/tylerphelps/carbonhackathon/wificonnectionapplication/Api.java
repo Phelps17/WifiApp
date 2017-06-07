@@ -57,7 +57,12 @@ public final class Api extends Activity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.getLocalizedMessage());
+                        try {
+                            Log.d("Error.Response", error.getLocalizedMessage());
+                        }
+                        catch (Exception e) {
+                            Log.d("Error.Response", "NUll error messae.");
+                        }
                     }
                 }
         );
