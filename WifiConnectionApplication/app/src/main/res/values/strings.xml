@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WifiConnectionApplication</string>
+    <string name="title_activity_map_demo">Map</string>
 </resources>
