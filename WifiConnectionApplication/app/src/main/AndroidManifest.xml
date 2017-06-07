@@ -35,11 +35,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
-
-        <activity
-            android:name=".MapDemoActivity"
-            android:label="@string/title_activity_map_demo">
-        </activity>
     </application>
 
 </manifest>
