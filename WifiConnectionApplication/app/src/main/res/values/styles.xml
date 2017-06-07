@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name = "android:colorBackground">#40FFFFFF</item>
+
+    </style>
+
 </resources>

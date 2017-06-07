@@ -69,6 +69,15 @@ public class LocationServiceController implements
         mGoogleApiClient.disconnect();
     }
 
+    public void setParentActivity(Activity activity) {
+        this.parentActivity = activity;
+    }
+
+    public void resetConnection(){
+        this.disconnect();
+        this.connect();
+    }
+
     /**
      * Runs when a GoogleApiClient object successfully connects.
      */
@@ -97,6 +106,7 @@ public class LocationServiceController implements
         if (mLastLocation != null) {
             this.latitude = mLastLocation.getLatitude();
             this.longitude = mLastLocation.getLongitude();
+            Api.getWifiInfo(this.latitude, this.longitude, parentActivity);
             Log.i(TAG, "Lat: " + latitude + ", Long: " + longitude);
         } else {
             Log.i(TAG, "No location detected");
