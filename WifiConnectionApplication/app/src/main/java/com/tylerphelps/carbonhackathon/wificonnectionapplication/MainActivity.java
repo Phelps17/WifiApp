@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements
             this.latitude = mLastLocation.getLatitude();
             this.longitude = mLastLocation.getLongitude();
             Toast.makeText(this, "Lat: " + latitude + ", Long: " + longitude, Toast.LENGTH_LONG).show();
+            Log.i(TAG, "Lat: " + latitude + ", Long: " + longitude);
         } else {
             Toast.makeText(this, "No Location Detected!", Toast.LENGTH_LONG).show();
         }
