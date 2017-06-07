@@ -2,6 +2,7 @@ package com.tylerphelps.carbonhackathon.wificonnectionapplication;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -25,19 +26,17 @@ public final class Api extends Activity {
     private static String baseUrl;
     private static RequestQueue queue;
 
-    public Api(){
-        baseUrl = "74.208.84.27:4000/";
-        queue = Volley.newRequestQueue(this);
+    public Api(Context context) {
+        baseUrl = "http://74.208.84.27:4000/";
+        queue = Volley.newRequestQueue(context);
     }
-
     /**
      *
      * @param lat latitude
      * @param lon longitude
      */
-    public static void getWifiInfo(double lat, double lon){
+    public void getWifiInfo(double lat, double lon){
         String url = baseUrl + "location?latitude="+lat+"&longitude="+lon;
-
         // prepare the Request
         final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>()
