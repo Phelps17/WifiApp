@@ -34,7 +34,6 @@ public final class Api extends Activity {
      *
      * @param lat latitude
      * @param lon longitude
-     * @return List in form [ssid, password]
      */
     public static void getWifiInfo(double lat, double lon){
         String url = baseUrl + "location?latitude="+lat+"&longitude="+lon;
