@@ -96,6 +96,7 @@ function changeGraphs(event){
       pointSize: 2,
       hideHover: 'auto',
       resize: true,
+      parseTime: false,
       behaveLikeLine: true
   });
 
@@ -113,8 +114,8 @@ function changeGraphs(event){
           console.log(response);
           $.each(response, function(i, item){
               var tr = $(document.createElement('tr'));
-              tr.append( $(document.createElement('td')).text(item.ip) );
               tr.append( $(document.createElement('td')).text(item.mac) );
+              tr.append( $(document.createElement('td')).text(item.ip) );
               $("#connect-info").append(tr);
           });
       }
