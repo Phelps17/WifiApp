@@ -7,6 +7,8 @@ var mongoose = require('mongoose'),
 
 exports.create_location = function(req, res) {
   var new_location = new Location(req.body);
+  new_location.latitude = Math.floor(new_location.latitude);
+  new_location.longitude = Math.floor(new_location.longitude);
   new_location.save(function(err, location) {
     if (err)
       res.send(err);
@@ -25,8 +27,8 @@ exports.locations = function(req, res) {
 
 exports.find_location = function(req, res) {
   var query = {};
-  query['latitude'] = req.body.latitude;
-  query['longitude'] = req.body.longitude;
+  query['latitude'] = Math.floor(req.body.latitude);
+  query['longitude'] = Math.floor(req.body.longitude);
   Location.findOne(query, function(err, location) {
     if (err)
       res.send(err);
@@ -36,7 +38,10 @@ exports.find_location = function(req, res) {
 
 
 exports.update_location = function(req, res) {
-  Location.findOneAndUpdate({latitude: req.body.latitude, longitude: req.body.longitude}, req.body, {new: true}, function(err, location) {
+  var body = req.body;
+  body.latitude = Math.floor(req.body.latitude);
+  body.longitude = Math.floor(req.body.longitude);
+  Location.findOneAndUpdate({latitude: Math.floor(req.body.latitude), longitude: Math.floor(req.body.longitude)}, req.body, {new: true}, function(err, location) {
     if (err)
       res.send(err);
     res.json(location);
@@ -45,8 +50,8 @@ exports.update_location = function(req, res) {
 
 exports.connections = function(req, res) {
   var query = {};
-  query['latitude'] = req.body.latitude;
-  query['longitude'] = req.body.longitude;
+  query['latitude'] = Math.floor(req.body.latitude);
+  query['longitude'] = Math.floor(req.body.longitude);
   Location.findOne(query, function(err, location) {
     if (err)
       res.send(err);
@@ -77,8 +82,8 @@ exports.connections = function(req, res) {
 
 exports.device_info = function(req, res) {
   var query = {};
-  query['latitude'] = req.body.latitude;
-  query['longitude'] = req.body.longitude;
+  query['latitude'] = Math.floor(req.body.latitude);
+  query['longitude'] = Math.floor(req.body.longitude);
   Location.findOne(query, function(err, location) {
     if (err) {
       res.send(err);
@@ -108,8 +113,8 @@ exports.device_info = function(req, res) {
 
 exports.devices = function(req, res) {
   var query = {};
-  query['latitude'] = req.body.latitude;
-  query['longitude'] = req.body.longitude;
+  query['latitude'] = Math.floor(req.body.latitude);
+  query['longitude'] = Math.floor(req.body.longitude);
   Location.findOne(query, function(err, location) {
     if (err) {
       res.send(err);
@@ -120,8 +125,8 @@ exports.devices = function(req, res) {
 
 exports.metrics = function(req, res) {
   var query = {};
-  query['latitude'] = req.body.latitude;
-  query['longitude'] = req.body.longitude;
+  query['latitude'] = Math.floor(req.body.latitude);
+  query['longitude'] = Math.floor(req.body.longitude);
   Location.findOne(query, function(err, location) {
     if (err) {
       res.send(err);
@@ -133,15 +138,15 @@ exports.metrics = function(req, res) {
 
 exports.delete_location = function(req, res) {
   var query = {};
-  query['latitude'] = req.body.latitude;
-  query['longitude'] = req.body.longitude;
+  query['latitude'] = Math.floor(req.body.latitude);
+  query['longitude'] = Math.floor(req.body.longitude);
   Location.findOne(query, function(err, location) {
     if (err) {
       res.send(err);
     }
     else{
       if(location != null) {
-        Location.remove({latitude: req.body.latitude, longitude: req.body.longitude}, function(err, location) {
+        Location.remove({latitude: Math.floor(req.body.latitude), longitude: Math.floor(req.body.longitude)}, function(err, location) {
           if (err){
             res.send(err);
           }
