@@ -24,6 +24,7 @@ var ssid = document.getElementById("ssid");
 var password = document.getElementById("password"); //totally not unecrypted....
 var lat = document.getElementById("lat");
 var lon = document.getElementById("lon"); // we would NEVERRRR do that....
+var pin = document.getElementById("pin");
 var submit = document.getElementById("addLocation");
 var remove = document.getElementById("removeLocation");
 var update = document.getElementById("update");
@@ -72,7 +73,7 @@ function initMap() {
   // create an array of markers based on a given "locations" array.
   // The map() method here has nothing to do with the Google Maps API.
   var markers = locations.map(function(location, i) {
-    console.log(location);
+    //console.log(location);
     var newMarker = new google.maps.Marker({
       position: location,
       label: names[i]
@@ -108,12 +109,13 @@ function initMap() {
   }
 
   $('#addLocation').click(function(){
+    var encrypted = CryptoJS.AES.encrypt(password.value.toString(), pin.value.toString());
     $.ajax({
       type: 'POST',
       url: 'http://74.208.84.27:4000/location/create',
       data: { name: $('#name')[0].value,
               ssid: $('#ssid')[0].value,
-              password: $('#password')[0].value,
+              password: encrypted.toString(),
               latitude: Number($('#lat')[0].value),
               longitude: Number($('#lon')[0].value),
       },
