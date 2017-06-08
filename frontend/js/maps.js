@@ -53,8 +53,8 @@ function initMap() {
   });
 
   map.addListener('click', function(event) {
-    lat.value = event.latLng.lat();
-    lon.value = event.latLng.lng();
+    lat.value = Number(event.latLng.lat()).toFixed(7);
+    lon.value = Number(event.latLng.lng()).toFixed(7);
     marker.setPosition(event.latLng);
     marker.setVisible(true);
     resetFields();
@@ -62,8 +62,8 @@ function initMap() {
 
   });
   marker.addListener('drag', function(event){
-    lat.value = event.latLng.lat();
-    lon.value = event.latLng.lng();
+    lat.value = Number(event.latLng.lat()).toFixed(7);
+    lon.value = Number(event.latLng.lng()).toFixed(7);
     setButtons(true);
   });
 
@@ -116,8 +116,8 @@ function initMap() {
       data: { name: $('#name')[0].value,
               ssid: $('#ssid')[0].value,
               password: encrypted.toString(),
-              latitude: Number($('#lat')[0].value),
-              longitude: Number($('#lon')[0].value),
+              latitude: Number($('#lat')[0].value).toFixed(7),
+              longitude: Number($('#lon')[0].value).toFixed(7),
       },
       success: function(result){
         //e.preventDefault();

@@ -135,7 +135,8 @@ public class LocationServiceController implements
         if (mLastLocation != null) {
             this.latitude = mLastLocation.getLatitude();
             this.longitude = mLastLocation.getLongitude();
-            Api.getWifiInfo(this.latitude, this.longitude, parentActivity);
+            //Api.getWifiInfo(this.latitude, this.longitude, parentActivity);
+            Api.getWifiInfo(60.06484046010452, -114.2578125, parentActivity);
             Log.i(TAG, "Lat: " + latitude + ", Long: " + longitude);
         } else {
             Log.i(TAG, "No location detected");

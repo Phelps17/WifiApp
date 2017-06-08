@@ -57,9 +57,9 @@ exports.connections = function(req, res) {
 
       if(location['connections'][i]['date'] === day) {
         done = true;
-        if(req.body.code == 0)
+        if(req.body.code === 0)
           location['connections'][i]['returning']++;
-        else {
+        else{
           location['connections'][i]['new']++;
         }
       }

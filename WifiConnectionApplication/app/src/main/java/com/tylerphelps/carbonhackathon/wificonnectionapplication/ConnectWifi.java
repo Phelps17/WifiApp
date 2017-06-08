@@ -72,7 +72,7 @@ public class ConnectWifi {
         }
 
         // prepare the Request
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, baseUrl, body,
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, baseUrl, body,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
