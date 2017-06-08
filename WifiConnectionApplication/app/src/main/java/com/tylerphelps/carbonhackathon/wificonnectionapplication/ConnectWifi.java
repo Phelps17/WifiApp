@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.support.v4.widget.TextViewCompat;
-import android.util.Log;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,14 +24,14 @@ import static android.content.Context.WIFI_SERVICE;
  * Created by lna207 on 6/7/17.
  */
 
-public class ConnectWifi {
+class ConnectWifi {
 
     private static final int RETURN_USER_CONNECT_CODE = 0;
     private static final int NEW_USER_CONNECT_CODE = 1;
     private static String baseUrl;
     private static RequestQueue queue;
 
-    public static void connectToNetwork(String networkSSID, String networkPass, double lat, double lon, Activity activity){
+    static void connectToNetwork(String networkSSID, String networkPass, double lat, double lon, Activity activity){
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = "\"" + networkSSID + "\"";   // Please note the quotes. String should contain ssid in quotes
         conf.preSharedKey = "\""+ networkPass +"\"";

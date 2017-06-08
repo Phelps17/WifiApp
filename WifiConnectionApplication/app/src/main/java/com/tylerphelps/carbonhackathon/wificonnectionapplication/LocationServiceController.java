@@ -166,7 +166,7 @@ public class LocationServiceController implements
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    public void enableLocation() {
+    private void enableLocation() {
         LocationManager lm = (LocationManager) this.parentActivity.getSystemService(Context.LOCATION_SERVICE);
         boolean gpsEnabled = false;
         boolean networkEnabled = false;
@@ -206,7 +206,7 @@ public class LocationServiceController implements
         }
     }
 
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    private void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_COARSE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.

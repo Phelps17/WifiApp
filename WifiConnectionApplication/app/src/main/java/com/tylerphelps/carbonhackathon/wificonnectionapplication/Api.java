@@ -37,7 +37,7 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by gtr126 on 6/7/17.
  */
 
-public final class Api extends Activity {
+final class Api extends Activity {
     private static String baseUrl;
     private static RequestQueue queue;
 
@@ -46,7 +46,7 @@ public final class Api extends Activity {
      * @param lat latitude
      * @param lon longitude
      */
-    public static void getWifiInfo(final double lat, final double lon, final Activity activity){
+    static void getWifiInfo(final double lat, final double lon, final Activity activity){
         baseUrl = "http://74.208.84.27:4000/location";
         queue = Volley.newRequestQueue(activity);
         JSONObject body = new JSONObject();
@@ -97,7 +97,7 @@ public final class Api extends Activity {
         queue.add(request);
     }
 
-    public static String decryptMsg(byte[] cipherText, String secret) {
+    static String decryptMsg(byte[] cipherText, String secret) {
         byte[] cipherData = Base64.decode(cipherText, Base64.DEFAULT);
         byte[] saltData = Arrays.copyOfRange(cipherData, 8, 16);
 
@@ -139,7 +139,7 @@ public final class Api extends Activity {
         return decryptedText;
     }
 
-    public static byte[][] GenerateKeyAndIV(int keyLength, int ivLength, int iterations, byte[] salt, byte[] password, MessageDigest md) {
+    static byte[][] GenerateKeyAndIV(int keyLength, int ivLength, int iterations, byte[] salt, byte[] password, MessageDigest md) {
 
         int digestLength = md.getDigestLength();
         int requiredLength = (keyLength + ivLength + digestLength - 1) / digestLength * digestLength;

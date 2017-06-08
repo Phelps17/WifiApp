@@ -1,15 +1,9 @@
 package com.tylerphelps.carbonhackathon.wificonnectionapplication;
 
-import android.content.DialogInterface;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 
 public class MainActivity extends AppCompatActivity {
 
