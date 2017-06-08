@@ -24,7 +24,7 @@ var ssid = document.getElementById("ssid");
 var password = document.getElementById("password"); //totally not unecrypted....
 var lat = document.getElementById("lat");
 var lon = document.getElementById("lon"); // we would NEVERRRR do that....
-var pin = document.getElementById("pin");
+//var pin = document.getElementById("pin");
 var submit = document.getElementById("addLocation");
 var remove = document.getElementById("removeLocation");
 var update = document.getElementById("update");
@@ -109,13 +109,13 @@ function initMap() {
   }
 
   $('#addLocation').click(function(){
-    var encrypted = CryptoJS.AES.encrypt(password.value.toString(), pin.value.toString());
+    //var encrypted = CryptoJS.AES.encrypt(password.value.toString(), pin.value.toString());
     $.ajax({
       type: 'POST',
       url: 'http://74.208.84.27:4000/location/create',
       data: { name: $('#name')[0].value,
               ssid: $('#ssid')[0].value,
-              password: encrypted.toString(),
+              password: $('#password')[0].value,
               latitude: Number($('#lat')[0].value).toFixed(7),
               longitude: Number($('#lon')[0].value).toFixed(7),
       },

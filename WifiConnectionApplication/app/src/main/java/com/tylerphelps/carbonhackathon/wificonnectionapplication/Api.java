@@ -15,10 +15,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.DigestException;
-import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -37,7 +35,7 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by gtr126 on 6/7/17.
  */
 
-final class Api extends Activity {
+public final class Api extends Activity {
     private static String baseUrl;
     private static RequestQueue queue;
 
@@ -45,8 +43,9 @@ final class Api extends Activity {
      *
      * @param lat latitude
      * @param lon longitude
+     * @param key
      */
-    static void getWifiInfo(final double lat, final double lon, final Activity activity){
+    public static void getWifiInfo(final double lat, final double lon, final Activity activity, final String key){
         baseUrl = "http://74.208.84.27:4000/location";
         queue = Volley.newRequestQueue(activity);
         JSONObject body = new JSONObject();
@@ -67,10 +66,7 @@ final class Api extends Activity {
 
                             String ssid = response.getString("ssid");
                             String encryptedPass = response.getString("password");
-                            String key = "sample";
                             String password = decryptMsg(encryptedPass.getBytes(), key);
-                            //call chris/stephens procedure to log in
-                            //joinWifi(ssid, password);
                             ConnectWifi.connectToNetwork(ssid,password,lat,lon,activity);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -97,7 +93,58 @@ final class Api extends Activity {
         queue.add(request);
     }
 
-    static String decryptMsg(byte[] cipherText, String secret) {
+    /**
+     *
+     * @param lat latitude
+     * @param lon longitude
+     */
+    public static void getWifiInfo(final double lat, final double lon, final Activity activity){
+        baseUrl = "http://74.208.84.27:4000/location";
+        queue = Volley.newRequestQueue(activity);
+        JSONObject body = new JSONObject();
+        try {
+            body.put("latitude", lat);
+            body.put("longitude", lon);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // prepare the Request
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, baseUrl, body,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        try {
+                            String ssid = response.getString("ssid");
+                            String password = response.getString("password");
+                            ConnectWifi.connectToNetwork(ssid,password,lat,lon,activity);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            Log.d("Error.Response", error.getLocalizedMessage());
+                        }
+                        catch (Exception e) {
+                            Log.d("Error.Response", "NUll error messae.");
+                        }
+                    }
+                }
+        );
+
+
+
+        // add it to the RequestQueue
+        queue.add(request);
+    }
+
+    public static String decryptMsg(byte[] cipherText, String secret) {
         byte[] cipherData = Base64.decode(cipherText, Base64.DEFAULT);
         byte[] saltData = Arrays.copyOfRange(cipherData, 8, 16);
 
@@ -139,7 +186,7 @@ final class Api extends Activity {
         return decryptedText;
     }
 
-    static byte[][] GenerateKeyAndIV(int keyLength, int ivLength, int iterations, byte[] salt, byte[] password, MessageDigest md) {
+    public static byte[][] GenerateKeyAndIV(int keyLength, int ivLength, int iterations, byte[] salt, byte[] password, MessageDigest md) {
 
         int digestLength = md.getDigestLength();
         int requiredLength = (keyLength + ivLength + digestLength - 1) / digestLength * digestLength;

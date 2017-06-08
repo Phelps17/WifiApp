@@ -1,7 +1,7 @@
 package com.tylerphelps.carbonhackathon.wificonnectionapplication;
 
 import android.app.Activity;
-import android.content.Context;
+
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 
