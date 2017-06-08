@@ -4,6 +4,7 @@ var clusterClicked = false;
 var locations = [];
 var names = [];
 var marker;
+var gotLocation = false;
 
 jQuery.ajax({
   type: 'GET',
@@ -32,28 +33,19 @@ var remove = document.getElementById("removeLocation");
 var update = document.getElementById("update");
 remove.disabled = true;
 update.disabled = true;
-var x = 37.5430500;
-var y = -77.4366390;
+var x = 39.828149;
+var y = -98.579544;
 
 function initMap() {
   var map;
-  /*
-  if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(showPosition);
-} else {
-x.innerHTML = "Geolocation is not supported by this browser.";
+if(!gotLocation){
+  console.log("getting location");
+  gotLocation = true;
+  getLocation();
 }
-
-
-function showPosition(position) {
-x = position.coords.latitude;
-y = position.coords.longitude;
-}
-*/
-
 if (!hasAdded){
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 5,
+    zoom: 4,
     center: {lat: x, lng: y}
   });
 } else{
@@ -224,6 +216,36 @@ $('#lon').on('input', function(){
   setMarkerLocation();
 });
 
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+
+function showPosition(position) {
+    x = position.coords.latitude;
+    y = position.coords.longitude;
+    initMap();
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
 
 function setMarkerLocation(){
   var latitude = parseFloat(lat.value);
