@@ -23,5 +23,5 @@ module.exports = function(app) {
     .put(todoList.connections);
 
   app.route('/location/metrics')
-    .post(todoList.metrics)
+    .post(todoList.metrics);
 };
