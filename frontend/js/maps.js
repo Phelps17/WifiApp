@@ -1,8 +1,16 @@
-
+$(function(){
+  Morris.Area({
+      element: 'morris-area-chart',
+      pointSize: 2,
+      hideHover: 'auto',
+      resize: true
+  });
+});
 var hasAdded = false;
 var clusterClicked = false;
 var locations = [];
 var names = [];
+var totalConnections = [];
 var marker;
 var gotLocation = false;
 
@@ -15,9 +23,20 @@ jQuery.ajax({
     for(i = 0; i < json.length; i++) {
       var latVal = json[i].latitude;
       var lngVal = json[i].longitude;
+      totalConnections[i] = 0;
       locations[i] = {lat: latVal, lng: lngVal}
       names[i] = json[i].name;
+
+      if(typeof json[i].connections != "undefined"){
+        for(j = 0; j < json[i].connections.length; j++){
+          totalConnections[i] += json[i].connections[j].new + json[i].connections[j].returning;
+        }
+      }
+
+      updateTable(json[i]);
     }
+
+    createDonut();
     initMap();
   }
 });
@@ -35,6 +54,72 @@ remove.disabled = true;
 update.disabled = true;
 var x = 39.828149;
 var y = -98.579544;
+
+function createDonut(){
+
+  var items = [];
+  for(i = 0; i < names.length; i++){
+    items[i] = {"label":names[i], "value":totalConnections[i]};
+  }
+
+  console.log(items);
+  Morris.Donut({
+      element: 'morris-donut-chart',
+      data: items,
+      resize: true
+  });
+}
+
+function updateTable(data) {
+  var tr = $(document.createElement('tr'));
+  tr.append( $(document.createElement('td')).text(data.name) );
+  tr.append( $(document.createElement('td')).text(data.ssid) );
+  tr.append( $(document.createElement('td')).text(data.password) );
+  tr.append( $(document.createElement('td')).text(data.latitude.toFixed(7)) );
+  tr.append( $(document.createElement('td')).text(data.longitude.toFixed(7)) );
+  tr.click(data, changeGraphs);
+  $("#location-table").append(tr);
+}
+
+function changeGraphs(event){
+  //clear areas
+  $('#morris-area-chart').html('');
+  $('#connect-info').find("tr:gt(0)").remove();
+
+  //area chart
+  Morris.Area({
+      element: 'morris-area-chart',
+      data: event.data.connections,
+      xkey: 'date',
+      ykeys: ['new', 'returning'],
+      labels: ['New Connections', 'Returning Connections'],
+      pointSize: 2,
+      hideHover: 'auto',
+      resize: true,
+      behaveLikeLine: true
+  });
+
+  //connection information
+  $.ajax({
+      url: "http://74.208.84.27:4000/location/devices",
+      data:{
+        "latitude": event.data.latitude,
+        "longitude": event.data.longitude
+      },
+      type: 'POST',
+      success: function (response){
+          //update table data
+          console.log("grabbing ip and mac");
+          console.log(response);
+          $.each(response, function(i, item){
+              var tr = $(document.createElement('tr'));
+              tr.append( $(document.createElement('td')).text(item.ip) );
+              tr.append( $(document.createElement('td')).text(item.mac) );
+              $("#connect-info").append(tr);
+          });
+      }
+  });
+}
 
 function initMap() {
   var map;
@@ -147,6 +232,7 @@ $('#addLocation').click(function(){
       hasAdded = true;
       resetFields();
       initMap();
+      updateTable(result);
     }
     else {
       var text = "Error Adding to Map! \nThe following fields were empty:\n"

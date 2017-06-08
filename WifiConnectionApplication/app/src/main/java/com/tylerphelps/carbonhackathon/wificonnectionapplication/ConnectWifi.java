@@ -24,7 +24,7 @@ import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
 
-import static android.content.Context.ACCOUNT_SERVICE;
+
 import static android.content.Context.WIFI_SERVICE;
 
 
