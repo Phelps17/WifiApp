@@ -114,18 +114,29 @@ function initMap() {
       data: { name: $('#name')[0].value,
               ssid: $('#ssid')[0].value,
               password: $('#password')[0].value,
-              latitude: Number($('#lat')[0].value).toFixed(7),
-              longitude: Number($('#lon')[0].value).toFixed(7),
+              latitude: Number($('#lat')[0].value),
+              longitude: Number($('#lon')[0].value),
       },
       success: function(result){
         //e.preventDefault();
-        var latitude = parseFloat(lat.value);
-        var longitude = parseFloat(lon.value);
-        locations[locations.length] = {lat: parseFloat(Number(latitude).toFixed(7)), lng: parseFloat(Number(longitude).toFixed(7))};
-        names[names.length] = docName.value;
-        hasAdded = true;
-        resetFields();
-        initMap();
+        console.log(this.data);
+        console.log(result);
+        if (result['errors'] == null) {
+          var latitude = parseFloat(lat.value);
+          var longitude = parseFloat(lon.value);
+          locations[locations.length] = {lat: parseFloat(Number(latitude).toFixed(7)), lng: parseFloat(Number(longitude).toFixed(7))};
+          names[names.length] = docName.value;
+          hasAdded = true;
+          resetFields();
+          initMap();
+        }
+        else {
+          var text = "Error Adding to Map! \nThe following fields were empty:\n"
+          for (var key in result['errors']) {
+            text = text + key + "\n";
+          }
+          alert(text);
+        }
       }
     });
   });
