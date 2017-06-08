@@ -24,7 +24,12 @@ var LocationSchema = new Schema({
   longitude: {
     type: Number,
     Required: "Please provide longitude"
-  }
+  },
+  connections: [ {
+    date : {type: String, index : true},
+    returning: {type: Number, default: 0},
+    new: {type:Number, default: 0}
+  }]
 });
 
 module.exports = mongoose.model('Location', LocationSchema);

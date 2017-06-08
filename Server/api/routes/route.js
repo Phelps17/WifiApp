@@ -6,7 +6,7 @@ module.exports = function(app) {
   // todoList Routes
   app.route('/location')
     .post(todoList.find_location);
-  
+
   app.route('/location/create')
     .post(todoList.create_location);
 
@@ -18,4 +18,10 @@ module.exports = function(app) {
 
   app.route('/location/update')
     .put(todoList.update_location);
+
+  app.route('/location/connections')
+    .put(todoList.connections);
+
+  app.route('/location/metrics')
+    .post(todoList.metrics)
 };
