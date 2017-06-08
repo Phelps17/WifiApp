@@ -25,6 +25,10 @@ var LocationSchema = new Schema({
     type: Number,
     required: true
   },
+  devices: [ {
+    ip: { type:String , required:true },
+    mac: { type:String, index: true, required: true}
+  }],
   connections: [ {
     date : {type: String, index : true, required: true},
     returning: {type: Number, default: 0},

@@ -31,9 +31,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by gtr126 on 6/7/17.
- */
+
 
 public final class Api extends Activity {
     private static String baseUrl;

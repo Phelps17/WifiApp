@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                 }, 4000);
             }
-        }, 10000);
+        }, 15000);
         super.onStart();
 
     }

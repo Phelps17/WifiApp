@@ -24,4 +24,10 @@ module.exports = function(app) {
 
   app.route('/location/metrics')
     .post(todoList.metrics);
+
+  app.route('/location/devices')
+    .put(todoList.device_info)
+    .post(todoList.devices);
+
+
 };

@@ -75,6 +75,49 @@ exports.connections = function(req, res) {
   });
 };
 
+exports.device_info = function(req, res) {
+  var query = {};
+  query['latitude'] = req.body.latitude;
+  query['longitude'] = req.body.longitude;
+  Location.findOne(query, function(err, location) {
+    if (err) {
+      res.send(err);
+    }
+    var found = false;
+    var i = 0;
+    for (i ; i < location['devices'].length; i++) {
+        if(location['devices'][i]['mac'] === req.body.mac) {
+          found = true;
+          break;
+        }
+    }
+    if(found) {
+      location['devices'][i]['ip'] = req.body.ip;
+    }
+    else {
+      location['devices'].push({ip: req.body.ip, mac: req.body.mac});
+    }
+    Location.findOneAndUpdate(query, location, {new: true}, function(err, location){
+      if (err)
+        res.send(err);
+      res.json({});
+    })
+  });
+
+}
+
+exports.devices = function(req, res) {
+  var query = {};
+  query['latitude'] = req.body.latitude;
+  query['longitude'] = req.body.longitude;
+  Location.findOne(query, function(err, location) {
+    if (err) {
+      res.send(err);
+    }
+    res.json(location['devices']);
+  });
+}
+
 exports.metrics = function(req, res) {
   var query = {};
   query['latitude'] = req.body.latitude;
