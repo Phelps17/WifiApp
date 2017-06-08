@@ -27,6 +27,12 @@ body {
     border-left: 1px solid #e7e7e7;
   }
 }
+.navbar {
+  background-color: #303e4e
+}
+.navbar-default .navbar-brand{
+  color: #ffffff;
+}
 .navbar-top-links {
   margin-right: 0;
 }
@@ -37,6 +43,7 @@ body {
   margin-right: 15px;
 }
 .navbar-top-links li a {
+  color: #ffffff;
   padding: 15px;
   min-height: 50px;
 }
