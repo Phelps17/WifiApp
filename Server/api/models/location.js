@@ -6,27 +6,27 @@ var Schema = mongoose.Schema;
 var LocationSchema = new Schema({
   name: {
     type: String,
-    Required: 'Please provide a name',
+    required: true,
     index: true
   },
   ssid: {
     type: String,
-    Required: "Please provide ssid"
+    required: true
   },
   password: {
     type: String,
-    Required: "Please provide password"
+    required: true
   },
   latitude: {
     type: Number,
-    Required: "Please provide latitude"
+    required: true
   },
   longitude: {
     type: Number,
-    Required: "Please provide longitude"
+    required: true
   },
   connections: [ {
-    date : {type: String, index : true},
+    date : {type: String, index : true, required: true},
     returning: {type: Number, default: 0},
     new: {type:Number, default: 0}
   }]
