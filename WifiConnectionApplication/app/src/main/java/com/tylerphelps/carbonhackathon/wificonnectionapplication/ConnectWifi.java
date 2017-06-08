@@ -60,7 +60,7 @@ class ConnectWifi {
                 String ipAddress = Formatter.formatIpAddress(ip);
                 sendDeviceInfo(lat,lon,activity,ipAddress,getMacAddr());
             }
-        }, 5000);
+        }, 10000);
         activity.finishAffinity();
     }
 
