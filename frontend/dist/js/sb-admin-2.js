@@ -45,20 +45,3 @@ $(function() {
         }
     }
 });
-
-$('#addLocation').click(function(){
-  console.log("HERE");
-  $.ajax({
-    type: 'POST',
-    url: 'http://74.208.84.27:4000/location/create',
-    data: { name: $('#name')[0].value,
-            ssid: $('#ssid')[0].value,
-            password: $('#password')[0].value,
-            latitude: Number($('#lat')[0].value).toFixed(7),
-            longitude: Number($('#lon')[0].value).toFixed(7),
-    },
-    success: function(result){
-
-    }
-  });
-});
